@@ -4,19 +4,24 @@ import { createXRStore, XR } from "@react-three/xr";
 import { CarModel } from "./models/Car";
 import { Environment, OrbitControls } from "@react-three/drei";
 import { PinkModel } from "./models/Pink-ballon";
+import { useEffect } from "react";
 
 function App() {
   const store = createXRStore();
 
+  async function handleVR(){
+    const vr = await store.enterVR()
+    console.log('vr : ',vr)
+  }
+
   return (
     <>
-      <button onClick={() => store.enterVR()}>Enter VR</button>
-      <button onClick={() => store.enterAR()}>Enter AR</button>
+      <button onClick={() => handleVR()}>Enter VR</button>
       <Canvas>
         <XR store={store}>
           <CarModel />
-          <PinkModel />
-          <OrbitControls />
+          <PinkModel store={store} />
+          {/* <OrbitControls /> */}
           {/* <Environment preset="sunset" /> */}
           <directionalLight position={[0, 10, 0]} intensity={5} castShadow />
         </XR>
